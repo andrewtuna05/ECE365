@@ -73,7 +73,7 @@ void spellcheck(const string &in_file, const string &o_file ){
             char c = line[i]; //current character
 
             //word length more than 20 chars, write msg
-            if(word.length() > 20){ 
+            if(word.length() > 19){ 
                 out_file << "Long word at line " << line_num << ", starts: " << word.substr(0,20) << endl;
                 
                 //skip over rest of chars
