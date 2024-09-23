@@ -13,19 +13,54 @@ hashTable::hashTable(int size){
 implemented linear probing 
 */
 int hashTable::insert(const string &key, void *pv){
+    
+    //check first
+    if(contains(key)){ 
+        return 1; //already in table
+    }
+    
+    if(filled > capacity/2){
+        if(!rehash()){
+            return 2;
+        }
+    }
+    
+    int pos = hash(key);
+    int start = pos;
+    //new item
+    data[pos].key = key; 
+    data[pos].isOccupied = true;
+    data[pos].isDeleted = false;
+    data[pos].pv = pv;
 
-
+    while(data[pos].isOccupied){
+        if(!data[pos].isDeleted){
+            pos++; //linear probing
+        }
+        if(pos >= capacity){
+            pos = 0;
+        }
+        if(start == pos){
+            return -1; //fail if loop thru entire table
+        }
+    }
+    filled++;
+    return 0;
 }
 
 bool hashTable::contains(const string &key){
+    int pos = findPos(key);
 
-
+    if(pos == -1){
+        return false;
+    }
+    return true;
 }
 
 /* 
 hash function from "Data Structures and Algorithms Analysis in C++ 4th Ed" by Mark Allen Weiss
 */
-int hashTable::hash(){
+int hashTable::hash(const string &key){
     unsigned int hashVal = 0;
 
     for(char ch : key)
@@ -35,12 +70,29 @@ int hashTable::hash(){
 }
 
 int hashTable::findPos(const string &key){
-    int hash_value = hash(key);
+    int pos = findPos(key);
+    int start = pos; 
 
+    while(data[pos].isOccupied){
+        if(data[pos].key == key && !data[pos].isDeleted){
+            return pos;
+        }
+        pos++; //linear probing
+
+        //wrap around
+        if(pos >= capacity){
+            pos = 0;
+        }
+        
+        if (pos == start){
+            return -1; //failure
+        }
+    }
     
+    return -1; //failure
 }
 
-int hashTable::rehash(){
+bool hashTable::rehash(){
     capacity = getPrime(capacity); //new size (at least 2x)
     vector<hashItem> old_data = data; //save old data into another vec
     try{
@@ -52,12 +104,12 @@ int hashTable::rehash(){
     }
 
     //reinitialize newly sized vector
-    for (int i = 0; i < capacity; i++){
+    for(int i = 0; i < capacity; i++){
          data[i].isOccupied = false;
          data[i].isDeleted = false;
     }
 
-    int old_capacity = old_data.size()
+    int old_capacity = old_data.size();
 
     //copying old data into new vector
     for (int i = 0; i < old_capacity; i++){
@@ -80,7 +132,6 @@ unsigned int hashTable::getPrime(int size){
 
     //return biggest prime in last case scenario
     return primes[6];
-
 }
 
 
