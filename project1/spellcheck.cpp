@@ -72,31 +72,35 @@ void spellcheck(const string &in_file, const string &o_file ){
 
             char c = line[i]; //current character
 
-            //word length more than 20 chars, write msg
-            if(word.length() > 19){ 
-                out_file << "Long word at line " << line_num << ", starts: " << word.substr(0,20) << endl;
-                
-                //skip over rest of chars
-                while((c >= 48 && c <= 57) || (c >= 97 && c <= 122) || (c == 39) || (c == 45)){
-                    i++;
-                    c = line[i];
-                }
-                word = "";
-                continue;
-            }
             //valid chars: lowercase or digit or apostrophe or hyphen 
-            else if(( c >= 48 && c <= 57) || (c >= 97 && c <= 122) || (c == 39) || (c == 45)){
+            if(( c >= 48 && c <= 57) || (c >= 97 && c <= 122) || (c == 39) || (c == 45)){
+
+                //word length more than 20 chars, write long msg
+                if(word.length() > 19){ 
+                    out_file << "Long word at line " << line_num << ", starts: " << word.substr(0,20) << endl;
+                    
+                    //skip over rest of chars
+                    while((c >= 48 && c <= 57) || (c >= 97 && c <= 122) || (c == 39) || (c == 45)){
+                        i++;
+                        c = line[i];
+                    }
+                    word = "";
+                    continue;
+                }
+            
                 word = word + c;
+            //valid chars: lowercase or digit or apostrophe or hyphen 
             }
             else{
                 word_list.push_back(word);
                 word = "";
             }   
         }
-            if (!word.empty()) {
+        
+        if (!word.empty()) {
             word_list.push_back(word);
             word = "";  // Reset word after adding it
-            }
+        }
 
         //analyze word list
         for(int i = 0; i < word_list.size(); i++){
@@ -123,6 +127,7 @@ void spellcheck(const string &in_file, const string &o_file ){
                 out_file << "Unknown word at line " << line_num << ": " << word_list[i] << endl;
             }
         }
+        
         word_list.clear();
         line_num++;
     }
