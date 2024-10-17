@@ -85,6 +85,7 @@ int hashTable::findPos(const string &key){
             pos = 0;
         }
         
+        //looped entire table
         if (pos == start){
             return -1; //failure
         }
