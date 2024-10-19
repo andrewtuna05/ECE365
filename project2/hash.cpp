@@ -97,6 +97,8 @@ int hashTable::findPos(const string &key){
 bool hashTable::rehash(){
     capacity = getPrime(capacity); //new size (at least 2x)
     vector<hashItem> old_data = data; //save old data into another vec
+    data.clear();
+
     try{
         data.resize(capacity);
     }
