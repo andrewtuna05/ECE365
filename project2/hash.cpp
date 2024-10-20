@@ -143,13 +143,13 @@ unsigned int hashTable::getPrime(int size){
 
 void* hashTable::getPointer(const string &key, bool *b){
     if(!contains(key)){
-        if(b != NULL){
+        if(b != nullptr){
             *b = false;
-            return NULL;
+            return nullptr;
         } 
     }
 
-    if (b != NULL){
+    if (b != nullptr){
         *b = true;
     } 
     return data[findPos(key)].pv;
