@@ -114,6 +114,9 @@ bool hashTable::rehash(){
     }
 
     int old_capacity = old_data.size();
+    
+    //rest filled to 0 before reinserting items
+    filled = 0;
 
     //copying old data into new vector
     for (int i = 0; i < old_capacity; i++){
@@ -138,6 +141,33 @@ unsigned int hashTable::getPrime(int size){
     return primes[6];
 }
 
+void* hashTable::getPointer(const string &key, bool *b){
+    if(!contains(key)){
+        if(b != NULL){
+            *b = false;
+            return NULL;
+        } 
+    }
 
+    if (b != NULL){
+        *b = true;
+    } 
+    return data[findPos(key)].pv;
+}
 
+int hashTable::setPointer(const string &key, void *pv){
+    if(contains(key)){
+        data[findPos(key)].pv = pv;
+        return 0;
+    }
+    return 1;
+}
 
+bool hashTable::remove(const string&key){
+    if(contains(key)) {
+        data[findPos(key)].isDeleted = true;
+        return true;
+    }
+
+    return false;
+}
