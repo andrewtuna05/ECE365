@@ -54,11 +54,29 @@ void heap::percolateUp(int posCur){
 }
 
 void heap::percolateDown(int posCur){
+    while(posCur <= filled/2){
+        int minChild = posCur;
+        int leftChild = 2 * posCur;
+        int rightChild = 2 * posCur + 1;
 
+        if (leftChild <= filled && data[leftChild].key < data[minChild].key) {
+            minChild = leftChild;
+        }
+
+        if(rightChild <= filled && data[rightChild].key < data[minChild].key){
+            minChild = rightChild;
+        }
+
+        if (minChild == posCur){
+            break;
+        }
+
+        swap(data[posCur], data[minChild]);
+        mapping.setPointer(data[posCur].id, &data[posCur]);
+        mapping.setPointer(data[minChild].id, &data[minChild]);
+        posCur = minChild;
+    }
 }
-
-
-
 
 int heap::getPos(node *pn){
     int pos = pn - &data[0];
