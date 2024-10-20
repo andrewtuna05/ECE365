@@ -13,7 +13,7 @@ class heap {
 
   // heap - The constructor allocates space for the nodes of the heap
   // and the mapping (hash table) based on the specified capacity
-  heap(int capacity);
+  heap(int capacity = 0);
 
   // insert - Inserts a new node into the binary heap
   //
@@ -39,7 +39,7 @@ class heap {
   //   0 on success
   //   1 if a node with the given id does not exist
   
-  int setKey(const string &id, int key);
+  int setKey(const string &id, int newkey);
 
   
   // deleteMin - return the data associated with the smallest key
@@ -76,7 +76,7 @@ class heap {
     string id; //id of node
     int key; //key of node
     void *pData; //ptr to data
-  }
+  };
 
   int capacity;
   int filled;
@@ -91,5 +91,8 @@ class heap {
 
   //gets position of given node
   int getPos(node *pn);
-}
+
+  //checks if percolate down is valid
+  bool checkPercDown(int pos);
+};
 #endif //_HEAP_H
