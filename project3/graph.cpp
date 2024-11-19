@@ -11,7 +11,6 @@ graph::graph(ifstream &input){
     string dest;
     int cost;
 
-    //add data to graph
     while(getline(input, line)){ 
         istringstream stream(line);
         stream >> source >> dest >> cost;
@@ -19,13 +18,13 @@ graph::graph(ifstream &input){
     }
 }
 
-//bool for useDijkstra
+//Bool for useDijkstra
 bool graph::isNode(string name){
     return this->nodeTable->contains(name);
 }
 
 bool graph::createNode(string name){
-    //check if node already in graph
+    //Check if node already in graph
     if(this->nodeTable->contains(name)){
         return false;
     }
@@ -83,14 +82,14 @@ void graph::Dijkstra(string source){
             node* adj_node = edge->dest;  
             int edge_cost = edge->cost;
 
-            // Calculate the new distance
+            // Calculate new distance
             int new_dist = current_node->dist + edge_cost;
 
-            // Update the distance if a shorter path is found
+            // Update distance if a shorter path is found
             if (!adj_node->known && new_dist < adj_node->dist) {
                 adj_node->dist = new_dist;
-                adj_node->prev = current_node; // Set the parent
-                bin_heap.setKey(adj_node->name, new_dist); // Update the heap
+                adj_node->prev = current_node; 
+                bin_heap.setKey(adj_node->name, new_dist); //
             }
         }
     }
@@ -101,16 +100,16 @@ void graph::generateGraph(ofstream &output){
     for (auto current_node : this->nodeList) {
         output << current_node->name << ": ";
 
-        // If there's no path to the node
+        //If no path to the node
         if (!current_node->known || current_node->dist == INT_MAX) {
             output << "NO PATH" << endl;
             continue;
         }
 
-        // Write the cost and initialize path string
+        //Write the cost 
         output << current_node->dist << " [";
 
-        // Build path by traversing backwards through parents
+        //Initialize path string and construct path
         string path;
         node *path_node = current_node;
 
@@ -118,14 +117,13 @@ void graph::generateGraph(ofstream &output){
             if(!path.empty()){
                 path.insert(0, ", ");
             }
-            path.insert(0, path_node->name); // Add the source node to the path
+            path.insert(0, path_node->name); //Add source node to the path
             path_node = path_node->prev;
         }
 
-        // Write the path to the file
+        //Write the path to the file
         output << path << "]" << endl;
     }
 
-    // Close the output file
     output.close();
 }

@@ -27,7 +27,6 @@ class graph {
     //Runs algorithm on graph
     void Dijkstra(string source);
 
-    //Prints result
     void generateGraph(ofstream &output);
 
     private:
