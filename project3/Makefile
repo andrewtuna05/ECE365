@@ -1,8 +1,8 @@
-useDjik.exe: useDjik.o heap.o hash.o graph.o
-	g++ -o useDjik.exe useDjik.o heap.o hash.o graph.o
+useDijkstra.exe: useDijkstra.o heap.o hash.o graph.o
+	g++ -o useDijkstra.exe useDijkstra.o heap.o hash.o graph.o
 
-useDjik.o: useDjik.cpp graph.h
-	g++ -c useDjik.cpp
+useDijkstra.o: useDijkstra.cpp graph.h
+	g++ -c useDijkstra.cpp
 
 heap.o: heap.cpp heap.h
 	g++ -c heap.cpp
