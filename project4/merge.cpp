@@ -7,7 +7,7 @@ using namespace std;
 #define MAX_LENGTH 1001
 
 //Global Array
-int merged_string[MAX_LENGTH][MAX_LENGTH];
+int merged_string[MAX_LENGTH][MAX_LENGTH] = {0}; 
 
 string valid_merge(string &A, string &B, string &C){
     int a = A.length();
@@ -19,7 +19,7 @@ string valid_merge(string &A, string &B, string &C){
         return "*** NOT A MERGE ***";
     }
 
-    //Initialize Array each time 
+    //Initialize Array each time function is called
     for(int i = 0; i < MAX_LENGTH; i++){
         for(int j = 0; j < MAX_LENGTH; j++){
             merged_string[i][j] = 0;
